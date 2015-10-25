@@ -19,7 +19,6 @@ public class Geolocate extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        //PackageManager.PERMISSION_GRANTED;
         Log.i("geolocate", "Permission received");
         startService(new Intent(Geolocate.this, GeolocateService.class));
     }
@@ -33,46 +32,28 @@ public class Geolocate extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        //fab.setOnClickListener(new View.OnClickListener() {
-            //@TargetApi(Build.VERSION_CODES.M)
-            //@Override
-            //public void onClick(View view) {
+
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            Log.i("GeolocateIntentService", "Permissions failed");
+
+            String[] permissions = {
+                    "android.permission.ACCESS_COARSE_LOCATION",
+                    "android.permission.ACCESS_FINE_LOCATION",
+                    "android.permission.INTERNET"
+            };
+
+            requestPermissions(permissions, 1);
 
 
-                if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                    Log.i("GeolocateIntentService", "Permissions failed");
-
-                    String[] permissions = {
-                            "android.permission.ACCESS_COARSE_LOCATION",
-                            "android.permission.ACCESS_FINE_LOCATION",
-                            "android.permission.INTERNET"
-                    };
-
-                    requestPermissions(permissions,1);
+            return;
+        } else {
+            startService(new Intent(Geolocate.this, GeolocateService.class));
+        }
 
 
-                    // TODO: Consider calling
-                    //public void requestPermissions(@NonNull String[] permissions, int requestCode)
-                    // here to request the missing permissions, and then overriding
-                    //public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for Activity#requestPermissions for more details.
-                    return;
-                }
-                else
-                {
-                    startService(new Intent(Geolocate.this, GeolocateService.class));
-                }
+        Log.i("Geolocate", "Location app started!");
 
-
-
-                //Snackbar.make(view, "Background service started", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
-                Log.i("Geolocate", "Location app started!");
-            //}
-        //});
     }
 
     @Override

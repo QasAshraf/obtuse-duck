@@ -30,7 +30,7 @@ public class GeolocateService extends Service {
 
     @Override
     public void onCreate() {
-        mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         // Display a notification about us starting.  We put an icon in the status bar.
         showNotification();
@@ -51,8 +51,7 @@ public class GeolocateService extends Service {
         }
         mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
 
-        //Intent GPS_intent = new Intent(this, GeolocateIntentService.class);
-        //this.startService(GPS_intent); //need to think
+
         return START_STICKY;
     }
 
@@ -79,36 +78,13 @@ public class GeolocateService extends Service {
     private void showNotification() {
 
         return;
-        /*
-        // In this sample, we'll use the same text for the ticker and the expanded notification
-        CharSequence text = "Voluntezy";
-
-        // The PendingIntent to launch our activity if the user selects this notification
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-                new Intent(this, Geolocate.class), 0);
-
-        // Set the info for the views that show in the notification panel.
-        Notification notification = new Notification.Builder(this)
-                //.setSmallIcon()  // the status icon
-                .setTicker(text)  // the status text
-                .setWhen(System.currentTimeMillis())  // the time stamp
-                .setContentTitle("Voluntezy")  // the label of the entry
-                .setContentText(text)  // the contents of the entry
-                .setContentIntent(contentIntent)  // The intent to send when the entry is clicked
-                .build();
-
-        // Send the notification.
-        mNM.notify(NOTIFICATION, notification);
-        */
     }
 
     /* Class My Location Listener */
-    public class MyLocationListener implements LocationListener
-    {
+    public class MyLocationListener implements LocationListener {
 
         @Override
-        public void onLocationChanged(Location loc)
-        {
+        public void onLocationChanged(Location loc) {
 
             String Text = "Current location: " +
                     "Latitude = " + loc.getLatitude() +
@@ -129,15 +105,13 @@ public class GeolocateService extends Service {
         }
 
         @Override
-        public void onProviderDisabled(String provider)
-        {
-            Toast.makeText( getApplicationContext(), "Gps Disabled", Toast.LENGTH_SHORT ).show();
+        public void onProviderDisabled(String provider) {
+            Toast.makeText(getApplicationContext(), "Gps Disabled", Toast.LENGTH_SHORT).show();
         }
 
         @Override
-        public void onProviderEnabled(String provider)
-        {
-            Toast.makeText( getApplicationContext(), "Gps Enabled", Toast.LENGTH_SHORT).show();
+        public void onProviderEnabled(String provider) {
+            Toast.makeText(getApplicationContext(), "Gps Enabled", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -147,7 +121,7 @@ class SendLocation extends AsyncTask<String, Void, Void> {
 
     private Exception exception;
 
-    protected Void doInBackground(String ... params) {
+    protected Void doInBackground(String... params) {
         try {
 
             Map<String, String> data = new HashMap<String, String>();
