@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -45,18 +46,22 @@ public class GeolocateService extends Service {
 
         LocationListener mlocListener = new MyLocationListener();
 
-        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                checkSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED &&
+                checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
 
+            Log.i("GeolocateService", "Cannot listen for location updates as no permissions");
             return 0;
         }
 
         int MIN_TIME_IN_MINS_BETWEEN_UPDATES = 10;
-        int MIN_DISTANCE_IN_METERS = 100;
+        int MIN_DISTANCE_IN_METERS = 50;
 
         mlocManager.requestLocationUpdates(
                 LocationManager.GPS_PROVIDER,
                 (MIN_TIME_IN_MINS_BETWEEN_UPDATES * 60 * 100),
-                MIN_TIME_IN_MINS_BETWEEN_UPDATES,
+                MIN_DISTANCE_IN_METERS,
                 mlocListener);
 
 
@@ -96,9 +101,12 @@ public class GeolocateService extends Service {
 
             String Text = "Current location: " +
                     "Latitude = " + loc.getLatitude() +
-                    "Longitude = " + loc.getLongitude();
+                    ", Longitude = " + loc.getLongitude();
 
-            new SendLocation().execute("Shane",
+            TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            String imei = tm.getDeviceId();
+
+            new SendLocation().execute(imei,
                     Double.toString(loc.getLatitude()),
                     Double.toString(loc.getLongitude()));
 
@@ -109,7 +117,7 @@ public class GeolocateService extends Service {
 
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
-            Log.i("GeolocateIntentService", "GPS state change");
+            Log.i("GeolocateService", "GPS state change");
         }
 
         @Override

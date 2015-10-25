@@ -19,9 +19,8 @@ public class Geolocate extends AppCompatActivity {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        Log.i("geolocate", "Permission received");
+        Log.i("GeolocateService", "Permission received");
         startService(new Intent(Geolocate.this, GeolocateService.class));
-        this.finish();
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -34,14 +33,18 @@ public class Geolocate extends AppCompatActivity {
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
-        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                checkSelfPermission(Manifest.permission.INTERNET) != PackageManager.PERMISSION_GRANTED &&
+                checkSelfPermission(Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
 
-            Log.i("GeolocateIntentService", "Permissions failed");
+            Log.i("GeolocateService", "Permissions failed");
 
             String[] permissions = {
                     "android.permission.ACCESS_COARSE_LOCATION",
                     "android.permission.ACCESS_FINE_LOCATION",
-                    "android.permission.INTERNET"
+                    "android.permission.INTERNET",
+                    "android.permission.READ_PHONE_STATE"
             };
 
             requestPermissions(permissions, 1);
@@ -53,8 +56,7 @@ public class Geolocate extends AppCompatActivity {
         }
 
 
-        Log.i("Geolocate", "Location app started!");
-        this.finish();
+        Log.i("GeolocateService", "Location app started!");
     }
 
     @Override
