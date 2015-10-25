@@ -55,7 +55,7 @@ public class GeolocateService extends Service {
             return 0;
         }
 
-        int MIN_TIME_IN_MINS_BETWEEN_UPDATES = 10;
+        int MIN_TIME_IN_MINS_BETWEEN_UPDATES = 1;
         int MIN_DISTANCE_IN_METERS = 50;
 
         mlocManager.requestLocationUpdates(

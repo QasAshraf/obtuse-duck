@@ -21,6 +21,7 @@ public class Geolocate extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         Log.i("GeolocateService", "Permission received");
         startService(new Intent(Geolocate.this, GeolocateService.class));
+        finish();
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -30,8 +31,6 @@ public class Geolocate extends AppCompatActivity {
         setContentView(R.layout.activity_geolocate);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
                 checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
@@ -53,6 +52,7 @@ public class Geolocate extends AppCompatActivity {
             return;
         } else {
             startService(new Intent(Geolocate.this, GeolocateService.class));
+            finish();
         }
 
 
