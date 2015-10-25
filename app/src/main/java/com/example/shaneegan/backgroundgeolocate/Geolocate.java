@@ -21,6 +21,7 @@ public class Geolocate extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         Log.i("geolocate", "Permission received");
         startService(new Intent(Geolocate.this, GeolocateService.class));
+        this.finish();
     }
 
     @TargetApi(Build.VERSION_CODES.M)
@@ -53,7 +54,7 @@ public class Geolocate extends AppCompatActivity {
 
 
         Log.i("Geolocate", "Location app started!");
-
+        this.finish();
     }
 
     @Override

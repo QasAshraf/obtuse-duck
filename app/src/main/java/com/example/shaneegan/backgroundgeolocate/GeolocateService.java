@@ -49,7 +49,15 @@ public class GeolocateService extends Service {
 
             return 0;
         }
-        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
+
+        int MIN_TIME_IN_MINS_BETWEEN_UPDATES = 10;
+        int MIN_DISTANCE_IN_METERS = 100;
+
+        mlocManager.requestLocationUpdates(
+                LocationManager.GPS_PROVIDER,
+                (MIN_TIME_IN_MINS_BETWEEN_UPDATES * 60 * 100),
+                MIN_TIME_IN_MINS_BETWEEN_UPDATES,
+                mlocListener);
 
 
         return START_STICKY;
