@@ -24,10 +24,6 @@
         </activity>
 
         <service
-            android:name=".GeolocateIntentService"
-            android:exported="false" >
-        </service>
-        <service
             android:name=".GeolocateService"
             android:enabled="true"
             android:exported="true" >
